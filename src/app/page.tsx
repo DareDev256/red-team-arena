@@ -27,6 +27,7 @@ export default function Home() {
 
   return (
     <main className="min-h-screen flex flex-col items-center justify-center p-8 relative">
+      <div className="matrix-bg" />
       {/* Decorative corners */}
       <div className="fixed top-4 left-4 w-8 h-8 border-t-2 border-l-2 border-game-primary/30" />
       <div className="fixed top-4 right-16 w-8 h-8 border-t-2 border-r-2 border-game-primary/30" />

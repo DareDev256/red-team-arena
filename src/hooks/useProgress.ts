@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useCallback, useSyncExternalStore } from "react";
 import { UserProgress, Category } from "@/types/game";
 import {
   getProgress,
@@ -10,46 +10,52 @@ import {
   checkMastery,
 } from "@/lib/storage";
 
-export function useProgress(categories?: Category[]) {
-  const [progress, setProgress] = useState<UserProgress | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+// localStorage is an external store — useSyncExternalStore is the correct pattern
+const subscribe = () => () => {};
+const getServerSnapshot = (): boolean => false;
+const getClientSnapshot = (): boolean => true;
 
-  useEffect(() => {
-    setProgress(getProgress());
-    setIsLoading(false);
-  }, []);
+export function useProgress(categories?: Category[]) {
+  // Hydration gate: false on server, true on client
+  const isClient = useSyncExternalStore(subscribe, getClientSnapshot, getServerSnapshot);
+  const [tick, setTick] = useState(0);
+
+  const progress: UserProgress | null = isClient ? getProgress() : null;
+  const isLoading = !isClient;
+
+  // Force re-read from localStorage after mutations
+  const refresh = useCallback(() => setTick((t) => t + 1), []);
+
+  // Suppress unused var lint — tick drives re-renders on refresh()
+  void tick;
 
   const earnXP = useCallback((amount: number) => {
     const updated = addXP(amount);
-    setProgress(updated);
+    refresh();
     return updated;
-  }, []);
+  }, [refresh]);
 
   const finishLevel = useCallback(
     (categoryId: string, levelId: number) => {
       const updated = completeLevel(categoryId, levelId);
-      setProgress(updated);
+      refresh();
       return updated;
     },
-    []
+    [refresh]
   );
 
   const refreshStreak = useCallback(() => {
     const updated = updateStreak();
-    setProgress(updated);
+    refresh();
     return updated;
-  }, []);
+  }, [refresh]);
 
   const isLevelUnlocked = useCallback(
     (categoryId: string, levelId: number) => {
       if (!progress) return false;
-      if (levelId === 1) return true; // First level always unlocked
-
-      // Previous level must be completed AND mastered
+      if (levelId === 1) return true;
       const prevKey = `${categoryId}-${levelId - 1}`;
-      const completed = progress.completedLevels.includes(prevKey);
-      const mastered = checkMastery(prevKey);
-      return completed && mastered;
+      return progress.completedLevels.includes(prevKey) && checkMastery(prevKey);
     },
     [progress]
   );
@@ -58,9 +64,7 @@ export function useProgress(categories?: Category[]) {
     (categoryId: string) => {
       if (!progress || !categories) return true;
       const idx = categories.findIndex((c) => c.id === categoryId);
-      if (idx <= 0) return true; // First category always unlocked
-
-      // Previous category must have all levels completed
+      if (idx <= 0) return true;
       const prevCategory = categories[idx - 1];
       return prevCategory.levels.every((level) =>
         progress.completedLevels.includes(`${prevCategory.id}-${level.id}`)

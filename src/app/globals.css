@@ -31,6 +31,8 @@
   --animate-scanline: scanline 8s linear infinite;
   --animate-flicker: flicker 0.1s infinite;
   --animate-blink: blink 1.5s step-end infinite;
+  --animate-glitch: glitch 0.3s ease-out;
+  --animate-matrix-fall: matrix-fall 10s linear infinite;
 }
 
 @keyframes pulse-neon {
@@ -51,6 +53,52 @@
 @keyframes blink {
   0%, 100% { opacity: 1; }
   50% { opacity: 0; }
+}
+
+@keyframes glitch {
+  0% { transform: translate(0); filter: hue-rotate(0deg); }
+  20% { transform: translate(-4px, 2px); filter: hue-rotate(90deg); }
+  40% { transform: translate(3px, -1px); filter: hue-rotate(-90deg); }
+  60% { transform: translate(-2px, -3px); clip-path: inset(30% 0 40% 0); }
+  80% { transform: translate(4px, 1px); clip-path: inset(60% 0 10% 0); }
+  100% { transform: translate(0); filter: none; clip-path: none; }
+}
+
+@keyframes matrix-fall {
+  0% { background-position: 0% 0%; }
+  100% { background-position: 0% 100%; }
+}
+
+/* Matrix rain background */
+.matrix-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.06;
+  background-image:
+    repeating-linear-gradient(0deg,
+      transparent 0px, transparent 18px,
+      var(--game-primary) 18px, var(--game-primary) 19px
+    ),
+    repeating-linear-gradient(90deg,
+      transparent 0px, transparent 14px,
+      rgba(0, 255, 65, 0.3) 14px, rgba(0, 255, 65, 0.3) 15px
+    );
+  background-size: 15px 20px;
+  animation: matrix-fall 10s linear infinite;
+}
+
+/* Breach glitch effect */
+.glitch-active {
+  animation: glitch 0.3s ease-out 3;
+}
+
+/* Terminal prompt cursor */
+.terminal-cursor::after {
+  content: "█";
+  animation: blink 1s step-end infinite;
+  color: var(--game-primary);
 }
 
 body {
