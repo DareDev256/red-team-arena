@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.2.1] — 2026-03-05
+
+### Added
+- Vitest test suite with 34 tests across response engine and storage layer
+- Response engine tests: pattern matching, break levels, scoring, case insensitivity
+- Curriculum data integrity tests: regex compilation, required fields, unique IDs
+- Storage layer tests: XP system, recall multipliers, mastery gates, FSRS cards, streak freezes
+- Extracted `evaluatePrompt` into testable `src/lib/evaluatePrompt.ts` module
+- `npm test` and `npm run test:watch` scripts
+
 ## [0.2.0] — 2026-02-21
 
 ### Added

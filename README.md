@@ -33,9 +33,11 @@ Open [http://localhost:3000](http://localhost:3000).
 ## Commands
 
 ```bash
-npm run dev    # Development server
-npm run build  # Production build
-npm run lint   # ESLint check
+npm run dev        # Development server
+npm run build      # Production build
+npm run lint       # ESLint check
+npm test           # Run test suite (34 tests)
+npm run test:watch # Watch mode
 ```
 
 ## How It Works

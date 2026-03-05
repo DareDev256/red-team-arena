@@ -4,23 +4,9 @@ import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { challenges } from "@/data/curriculum";
-import { RedTeamChallenge, BreakResult } from "@/types/redteam";
+import { BreakResult } from "@/types/redteam";
 import { addXP } from "@/lib/storage";
-
-function evaluatePrompt(challenge: RedTeamChallenge, input: string): BreakResult {
-  const lower = input.toLowerCase();
-  for (const v of challenge.vulnerabilities) {
-    if (new RegExp(v.pattern, "i").test(lower)) {
-      return {
-        level: v.breakLevel,
-        response: v.response,
-        technique: v.technique,
-        points: v.breakLevel === "full" ? 20 : 8,
-      };
-    }
-  }
-  return { level: "none", response: challenge.defaultResponse, points: 0 };
-}
+import { evaluatePrompt } from "@/lib/evaluatePrompt";
 
 type Phase = "prompt" | "scanning" | "result" | "debrief";
 
