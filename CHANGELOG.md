@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.2.2] — 2026-03-06
+
+### Added
+- 33 new tests covering previously untested functions (67 total, up from 34)
+- Streak system tests: date logic, freeze consumption, first-play initialization
+- `updateItemScore` tests: score creation, independent tracking, timestamp accuracy
+- `getItemsForReview` tests: FSRS-to-naive fallback path, limit parameter
+- Learning analytics pipeline tests: event recording, retention rate calculation, 1000-event trim
+- Curriculum query tests: `getChallengesByCategory`, `getItemsByLevel`, referential integrity
+- `evaluatePrompt` edge cases: empty input, regex metacharacters, long strings, unicode
+
 ## [0.2.1] — 2026-03-05
 
 ### Added
