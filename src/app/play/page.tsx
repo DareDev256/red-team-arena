@@ -7,6 +7,7 @@ import { challenges } from "@/data/curriculum";
 import { BreakResult } from "@/types/redteam";
 import { addXP } from "@/lib/storage";
 import { evaluatePrompt } from "@/lib/evaluatePrompt";
+import { GlitchText } from "@/components/ui/GlitchText";
 
 type Phase = "prompt" | "scanning" | "result" | "debrief";
 
@@ -29,7 +30,7 @@ export default function PlayPage() {
     return (
       <main className="min-h-screen flex items-center justify-center p-4">
         <div className="text-center">
-          <p className="font-pixel text-sm text-game-primary neon-glow">MISSION COMPLETE</p>
+          <GlitchText as="p" className="font-pixel text-sm text-game-primary neon-glow" intensity="active" binary>MISSION COMPLETE</GlitchText>
           <p className="font-pixel text-xs text-game-accent mt-4">Score: {totalScore} pts</p>
           <Link href="/" className="font-pixel text-xs text-game-primary/60 mt-8 block hover:text-game-primary">[RETURN TO BASE]</Link>
         </div>
@@ -84,7 +85,7 @@ export default function PlayPage() {
 
         {/* Target AI Card */}
         <div className="border border-game-primary/30 p-4 mb-4 bg-game-dark/80">
-          <p className="font-pixel text-[8px] text-game-secondary mb-2">TARGET SYSTEM</p>
+          <GlitchText as="p" className="font-pixel text-[8px] text-game-secondary mb-2" intensity="idle" binary>TARGET SYSTEM</GlitchText>
           <p className="font-pixel text-[10px] text-game-primary/90 leading-relaxed">{challenge.prompt}</p>
           <div className="mt-3 border-t border-game-primary/20 pt-3">
             <p className="font-pixel text-[8px] text-game-accent/70">GUARDRAIL: {challenge.guardrail}</p>
@@ -95,7 +96,7 @@ export default function PlayPage() {
           {/* Prompt Input */}
           {phase === "prompt" && (
             <motion.div key="prompt" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-              <p className="font-pixel text-[8px] text-game-primary/60 mb-2">root@redteam:~$ <span className="terminal-cursor" /></p>
+              <p className="font-pixel text-[8px] text-game-primary/60 mb-2 quantum-glitch">root@redteam:~$ <span className="cursor-jitter" /></p>
               <textarea
                 ref={inputRef}
                 value={input}
@@ -107,7 +108,7 @@ export default function PlayPage() {
               />
               <div className="flex justify-between items-center mt-2">
                 <p className="font-pixel text-[8px] text-game-primary/30">SHIFT+ENTER for newline</p>
-                <button onClick={submit} disabled={!input.trim()} className="font-pixel text-[8px] bg-game-primary text-game-black px-4 py-2 hover:bg-game-primary/80 disabled:opacity-30 disabled:cursor-not-allowed">
+                <button onClick={submit} disabled={!input.trim()} className="font-pixel text-[8px] bg-game-primary text-game-black px-4 py-2 hover:bg-game-primary/80 disabled:opacity-30 disabled:cursor-not-allowed artifact-encrypt">
                   INJECT &gt;&gt;
                 </button>
               </div>
@@ -117,7 +118,7 @@ export default function PlayPage() {
           {/* Scanning Animation */}
           {phase === "scanning" && (
             <motion.div key="scan" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="text-center py-8">
-              <p className="font-pixel text-[10px] text-game-accent animate-pulse-neon">SCANNING PROMPT...</p>
+              <GlitchText as="p" className="font-pixel text-[10px] text-game-accent animate-pulse-neon" intensity="active">SCANNING PROMPT...</GlitchText>
               <div className="mt-4 mx-auto w-48 h-1 bg-game-dark overflow-hidden">
                 <motion.div className="h-full bg-game-accent" initial={{ width: "0%" }} animate={{ width: "100%" }} transition={{ duration: 1 }} />
               </div>
@@ -139,8 +140,8 @@ export default function PlayPage() {
               </div>
 
               <div className="flex gap-2">
-                {result.level !== "full" && <button onClick={retry} className="font-pixel text-[8px] border border-game-primary/30 text-game-primary px-4 py-2 hover:bg-game-primary/10">RETRY</button>}
-                <button onClick={() => setPhase("debrief")} className="font-pixel text-[8px] bg-game-accent/20 text-game-accent px-4 py-2 hover:bg-game-accent/30">
+                {result.level !== "full" && <button onClick={retry} className="font-pixel text-[8px] border border-game-primary/30 text-game-primary px-4 py-2 hover:bg-game-primary/10 artifact-encrypt">RETRY</button>}
+                <button onClick={() => setPhase("debrief")} className="font-pixel text-[8px] bg-game-accent/20 text-game-accent px-4 py-2 hover:bg-game-accent/30 artifact-encrypt">
                   {result.level === "full" ? "VIEW DEBRIEF" : "SKIP → DEBRIEF"}
                 </button>
               </div>
@@ -151,7 +152,7 @@ export default function PlayPage() {
           {phase === "debrief" && (
             <motion.div key="debrief" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
               <div className="border border-game-accent/30 p-4 space-y-4 bg-game-dark/60">
-                <p className="font-pixel text-[8px] text-game-accent">◈ DEBRIEF</p>
+                <GlitchText as="p" className="font-pixel text-[8px] text-game-accent" binary>◈ DEBRIEF</GlitchText>
                 <div>
                   <p className="font-pixel text-[8px] text-game-secondary mb-1">WHY IT MATTERS</p>
                   <p className="font-pixel text-[9px] text-white/70 leading-relaxed">{challenge.enrichment.whyItMatters}</p>
@@ -167,7 +168,7 @@ export default function PlayPage() {
                   </div>
                 )}
               </div>
-              <button onClick={next} className="mt-4 font-pixel text-[8px] bg-game-primary text-game-black px-6 py-2 hover:bg-game-primary/80 w-full">
+              <button onClick={next} className="mt-4 font-pixel text-[8px] bg-game-primary text-game-black px-6 py-2 hover:bg-game-primary/80 w-full artifact-encrypt">
                 NEXT TARGET &gt;&gt;
               </button>
             </motion.div>

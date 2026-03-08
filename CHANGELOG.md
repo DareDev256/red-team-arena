@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.3.0] — 2026-03-08
+
+### Added
+- Quantum glitch system: `text-desync` keyframes with RGB channel splitting (red/cyan shadow offsets) for terminal text
+- `GlitchText` component with idle/active intensity modes and binary ghost hover overlay
+- `cursor-jitter` animation replacing static terminal cursor with micro-jitter effect
+- `artifact-encrypt` CSS class: hover-triggered scan-line reveal animation on all action buttons
+- `binary-ghost` CSS class: shows binary representation of text on hover
+- Applied quantum glitch to play page (terminal prompt, scanning phase, target system label, debrief header)
+- Applied artifact-encrypt to all interactive buttons (INJECT, RETRY, VIEW DEBRIEF, NEXT TARGET)
+- Landing page tagline now uses GlitchText with binary ghost effect
+- All new animations respect `prefers-reduced-motion: reduce`
+
 ## [0.2.2] — 2026-03-06
 
 ### Added

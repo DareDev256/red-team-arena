@@ -9,6 +9,8 @@ An educational browser game that teaches AI safety through ethical prompt inject
 - **Hacker terminal interface** — green-on-black monospace with matrix rain background
 - **5 starter challenges** across Basic Injection and Role Play attack categories
 - **Pattern-matching response engine** — no API keys needed, all responses are pre-scripted
+- **Quantum glitch effects** — RGB channel desync, cursor jitter, and binary ghost overlays on terminal text
+- **Encrypted artifact buttons** — hover triggers scan-line reveal animation on interactive elements
 - **Breach visualization** — screen glitch effect when guardrails break
 - **Educational debriefs** — every challenge explains the attack, defense, and real-world impact
 - **Scoring system** — points based on attack sophistication and attempt count

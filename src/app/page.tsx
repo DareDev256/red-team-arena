@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/Button";
 import { StreakBadge } from "@/components/ui/StreakBadge";
 import { XPBar } from "@/components/ui/XPBar";
 import { useProgress } from "@/hooks/useProgress";
+import { GlitchText } from "@/components/ui/GlitchText";
 
 // OVERRIDE these per game
 const GAME_TITLE = "RED TEAM ARENA";
@@ -60,7 +61,7 @@ export default function Home() {
         animate={{ opacity: 1 }}
         transition={{ delay: 1 }}
       >
-        {GAME_TAGLINE}
+        <GlitchText intensity="idle" binary>{GAME_TAGLINE}</GlitchText>
       </motion.p>
 
       <motion.p

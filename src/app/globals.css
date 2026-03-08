@@ -69,6 +69,118 @@
   100% { background-position: 0% 100%; }
 }
 
+/* ─── QUANTUM GLITCH SYSTEM ─── */
+
+@keyframes text-desync {
+  0%, 92%, 100% {
+    text-shadow: none;
+    transform: translate(0);
+  }
+  93% {
+    text-shadow: -2px 0 #ff0040, 2px 0 #00d4ff;
+    transform: translate(1px, 0);
+  }
+  94% {
+    text-shadow: 2px 0 #ff0040, -1px 0 #00d4ff;
+    clip-path: inset(40% 0 20% 0);
+  }
+  95% {
+    text-shadow: -1px 0 #ff0040, 1px 0 #00d4ff;
+    transform: translate(-1px, 0);
+    clip-path: none;
+  }
+  96% {
+    text-shadow: none;
+    transform: translate(0);
+  }
+}
+
+@keyframes cursor-jitter {
+  0%, 85%, 100% { transform: translate(0, 0); }
+  86% { transform: translate(1px, -1px); }
+  88% { transform: translate(-1px, 0px); }
+  90% { transform: translate(0px, 1px); }
+  92% { transform: translate(1px, 0px); }
+}
+
+@keyframes scan-reveal {
+  0% { background-position: -100% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* Subtle quantum desync on idle terminal text */
+.quantum-glitch {
+  animation: text-desync 4s step-end infinite;
+  will-change: text-shadow, transform;
+}
+
+/* Faster, more aggressive desync for active elements */
+.quantum-glitch-active {
+  animation: text-desync 2s step-end infinite;
+}
+
+/* Cursor with micro-jitter — feels alive */
+.cursor-jitter::after {
+  content: "█";
+  animation:
+    blink 1s step-end infinite,
+    cursor-jitter 3s step-end infinite;
+  color: var(--game-primary);
+  display: inline-block;
+}
+
+/* Encrypted artifact: hover triggers scan line reveal */
+.artifact-encrypt {
+  position: relative;
+  overflow: hidden;
+}
+
+.artifact-encrypt::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--game-primary) 45%,
+    var(--game-accent) 50%,
+    var(--game-primary) 55%,
+    transparent 100%
+  );
+  opacity: 0;
+  mix-blend-mode: overlay;
+  transition: opacity 0.2s ease;
+  pointer-events: none;
+}
+
+.artifact-encrypt:hover::before {
+  opacity: 0.15;
+  animation: scan-reveal 0.6s ease-out forwards;
+}
+
+/* Binary flash overlay on breach elements */
+.binary-ghost {
+  position: relative;
+}
+
+.binary-ghost::after {
+  content: attr(data-binary);
+  position: absolute;
+  inset: 0;
+  color: var(--game-primary);
+  opacity: 0;
+  font-size: inherit;
+  font-family: inherit;
+  pointer-events: none;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.binary-ghost:hover::after {
+  animation: flicker 0.15s steps(2) 3;
+  opacity: 0.3;
+}
+
 /* Matrix rain background */
 .matrix-bg {
   position: fixed;
@@ -216,6 +328,21 @@ body {
 
   .streak-fire {
     animation: none;
+  }
+
+  .quantum-glitch,
+  .quantum-glitch-active {
+    animation: none;
+    text-shadow: none;
+  }
+
+  .cursor-jitter::after {
+    animation: none;
+  }
+
+  .artifact-encrypt::before,
+  .binary-ghost::after {
+    display: none;
   }
 }
 
