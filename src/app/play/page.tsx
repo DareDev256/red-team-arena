@@ -17,6 +17,7 @@ export default function PlayPage() {
   const [phase, setPhase] = useState<Phase>("prompt");
   const [result, setResult] = useState<BreakResult | null>(null);
   const [attempts, setAttempts] = useState(0);
+  const [awardedPts, setAwardedPts] = useState(0);
   const [totalScore, setTotalScore] = useState(0);
   const [glitch, setGlitch] = useState(false);
   const inputRef = useRef<HTMLTextAreaElement>(null);
@@ -52,8 +53,11 @@ export default function PlayPage() {
       setPhase("result");
       if (r.points > 0) {
         const pts = attempts === 0 ? r.points : Math.max(r.points - 5, 3);
+        setAwardedPts(pts);
         setTotalScore((s) => s + pts);
         addXP(pts);
+      } else {
+        setAwardedPts(0);
       }
     }, 1200);
   };
@@ -63,6 +67,7 @@ export default function PlayPage() {
     setInput("");
     setResult(null);
     setAttempts(0);
+    setAwardedPts(0);
     setIdx((i) => i + 1);
   };
 
@@ -70,6 +75,7 @@ export default function PlayPage() {
     setPhase("prompt");
     setInput("");
     setResult(null);
+    setAwardedPts(0);
   };
 
   return (
@@ -136,7 +142,7 @@ export default function PlayPage() {
                   {result.technique && <span className="font-pixel text-[8px] text-game-accent/60">— {result.technique}</span>}
                 </div>
                 <p className="font-pixel text-[10px] text-white/80 leading-relaxed">&gt; {result.response}</p>
-                {result.points > 0 && <p className="font-pixel text-[8px] text-game-primary mt-2">+{result.points} pts</p>}
+                {awardedPts > 0 && <p className="font-pixel text-[8px] text-game-primary mt-2">+{awardedPts} pts{attempts > 1 && <span className="text-game-primary/40 ml-2">(retry penalty)</span>}</p>}
               </div>
 
               <div className="flex gap-2">

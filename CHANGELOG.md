@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.1] — 2026-03-09
+
+### Fixed
+- Points display now shows actual awarded amount instead of base points — players saw "+20 pts" but received 15 on retries
+- Retry penalty is now visible with "(retry penalty)" label so scoring feels transparent
+- Timer progress bar guards against division-by-zero when duration is 0, preventing NaN CSS values
+
 ## [0.3.0] — 2026-03-08
 
 ### Added

@@ -13,7 +13,7 @@ An educational browser game that teaches AI safety through ethical prompt inject
 - **Encrypted artifact buttons** — hover triggers scan-line reveal animation on interactive elements
 - **Breach visualization** — screen glitch effect when guardrails break
 - **Educational debriefs** — every challenge explains the attack, defense, and real-world impact
-- **Scoring system** — points based on attack sophistication and attempt count
+- **Scoring system** — points based on attack sophistication with transparent retry penalties
 - **CRT scanline overlay** — authentic retro terminal feel
 
 ## Tech Stack
