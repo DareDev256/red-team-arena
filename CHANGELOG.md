@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.3.2] — 2026-03-13
+
+### Added
+- 41 gameplay flow tests covering attack simulation, false positive resistance, and curriculum graph integrity (108 total, up from 67)
+- Attack simulation: every vulnerability pattern verified reachable with realistic player prompts — catches unsolvable challenges
+- False positive resistance: 15 benign prompts verified clean across all challenges — catches overly broad regex
+- Curriculum graph integrity: categories ↔ levels ↔ challenges cross-reference validation, orphan detection, XP monotonicity
+- Retry penalty formula tests: first-attempt full points, deduction math, floor-at-3 guarantee
+- Enrichment completeness: verifies every challenge has unique educational content (whyItMatters, realWorldExample, proTip)
+
 ## [0.3.1] — 2026-03-09
 
 ### Fixed
