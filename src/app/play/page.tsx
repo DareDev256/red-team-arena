@@ -7,6 +7,7 @@ import { challenges } from "@/data/curriculum";
 import { BreakResult } from "@/types/redteam";
 import { addXP } from "@/lib/storage";
 import { evaluatePrompt } from "@/lib/evaluatePrompt";
+import { calculateScore, getBreachDisplay } from "@/lib/scoring";
 import { GlitchText } from "@/components/ui/GlitchText";
 
 type Phase = "prompt" | "scanning" | "result" | "debrief";
@@ -50,15 +51,13 @@ export default function PlayPage() {
         setGlitch(true);
         setTimeout(() => setGlitch(false), 900);
       }
-      setPhase("result");
-      if (r.points > 0) {
-        const pts = attempts === 0 ? r.points : Math.max(r.points - 5, 3);
-        setAwardedPts(pts);
+      const pts = calculateScore(r.points, attempts);
+      setAwardedPts(pts);
+      if (pts > 0) {
         setTotalScore((s) => s + pts);
         addXP(pts);
-      } else {
-        setAwardedPts(0);
       }
+      setPhase("result");
     }, 1200);
   };
 
@@ -132,12 +131,14 @@ export default function PlayPage() {
           )}
 
           {/* Result */}
-          {phase === "result" && result && (
+          {phase === "result" && result && (() => {
+            const breach = getBreachDisplay(result.level);
+            return (
             <motion.div key="result" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
-              <div className={`border p-4 mb-4 ${result.level === "full" ? "border-game-secondary bg-game-secondary/5" : result.level === "partial" ? "border-game-warning/50 bg-game-warning/5" : "border-game-primary/30 bg-game-dark/50"}`}>
+              <div className={`border p-4 mb-4 ${breach.borderClass}`}>
                 <div className="flex items-center gap-2 mb-2">
-                  <span className={`font-pixel text-[8px] ${result.level === "full" ? "text-game-secondary" : result.level === "partial" ? "text-game-warning" : "text-game-primary"}`}>
-                    {result.level === "full" ? "◆ BREACH DETECTED" : result.level === "partial" ? "◇ PARTIAL BREAK" : "● GUARDRAIL HELD"}
+                  <span className={`font-pixel text-[8px] ${breach.colorClass}`}>
+                    {breach.icon} {breach.label}
                   </span>
                   {result.technique && <span className="font-pixel text-[8px] text-game-accent/60">— {result.technique}</span>}
                 </div>
@@ -152,7 +153,8 @@ export default function PlayPage() {
                 </button>
               </div>
             </motion.div>
-          )}
+            );
+          })()}
 
           {/* Debrief — Educational Explanation */}
           {phase === "debrief" && (

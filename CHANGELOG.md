@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.4.0] — 2026-03-15
+
+### Changed
+- Extracted scoring logic from `PlayPage.submit()` into pure `calculateScore()` function in `src/lib/scoring.ts`
+- Extracted result display styling from inline ternary chains into `getBreachDisplay()` lookup — single source of truth for breach tier visuals
+- Refactored play page result phase to use `BreachDisplay` metadata instead of triple-nested className ternaries
+
+### Added
+- `src/lib/scoring.ts` module with `calculateScore()` and `getBreachDisplay()` — typed `BreachDisplay` interface for tier-based styling
+- 8 new tests for scoring math (retry penalty, floor-at-3, zero-point guard) and breach display mapping (116 total, up from 108)
+
 ## [0.3.2] — 2026-03-13
 
 ### Added

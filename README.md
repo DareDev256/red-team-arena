@@ -13,7 +13,7 @@ An educational browser game that teaches AI safety through ethical prompt inject
 - **Encrypted artifact buttons** — hover triggers scan-line reveal animation on interactive elements
 - **Breach visualization** — screen glitch effect when guardrails break
 - **Educational debriefs** — every challenge explains the attack, defense, and real-world impact
-- **Scoring system** — points based on attack sophistication with transparent retry penalties
+- **Scoring system** — pure `calculateScore()` engine with retry penalties and breach-tier display mapping
 - **CRT scanline overlay** — authentic retro terminal feel
 
 ## Tech Stack
@@ -38,7 +38,7 @@ Open [http://localhost:3000](http://localhost:3000).
 npm run dev        # Development server
 npm run build      # Production build
 npm run lint       # ESLint check
-npm test           # Run test suite (128 tests)
+npm test           # Run test suite (116 tests)
 npm run test:watch # Watch mode
 ```
 
