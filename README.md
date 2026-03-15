@@ -38,7 +38,7 @@ Open [http://localhost:3000](http://localhost:3000).
 npm run dev        # Development server
 npm run build      # Production build
 npm run lint       # ESLint check
-npm test           # Run test suite (108 tests)
+npm test           # Run test suite (128 tests)
 npm run test:watch # Watch mode
 ```
 
